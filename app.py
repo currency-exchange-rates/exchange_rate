@@ -15,6 +15,7 @@ def get_exchange_rates(base_currency):
     data = response.json()
     return data
 
+
 # Пример запроса curl:
 # curl "http://127.0.0.1:5000/?base_currency=EUR&target_currency=GBP&amount=10"
 @app.route('/')
@@ -29,6 +30,10 @@ def get_pair_amount():
     data = response.json()
     conversion_result = data.get("conversion_result")
     return jsonify({"conversion_result": float(conversion_result)})
+# пример ответа:
+# {
+#   "conversion_result": 8.29
+# }
 
 
 if __name__ == '__main__':
