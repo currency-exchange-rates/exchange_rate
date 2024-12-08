@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import requests
 from config import Config
 
@@ -15,16 +15,20 @@ def get_exchange_rates(base_currency):
     data = response.json()
     return data
 
-
-@app.route('/convert', methods=['GET'])
+# Пример запроса curl:
+# curl "http://127.0.0.1:5000/?base_currency=EUR&target_currency=GBP&amount=10"
+@app.route('/')
 def get_pair_amount():
-    base_code = request.args.get('base_currency')  # получаем с фронта
-    target_code = request.args.get('target_currency')  # получаем с фронта
+    """Возвращает значение конвертированного количества валюты."""
+    base_currency = request.args.get('base_currency')  # получаем с фронта
+    target_currency = request.args.get('target_currency')  # получаем с фронта
     amount = request.args.get('amount')  # получаем с фронта
     url = app.config['EXCHANGE_API_URL_PAIR'].format(api_key=app.config['API_KEY']) # noqa
-    full_url = f"{url}{base_code}/{target_code}/{amount}"
+    full_url = f"{url}{base_currency}/{target_currency}/{amount}"
     response = requests.get(full_url)
-    return response.json()
+    data = response.json()
+    conversion_result = data.get("conversion_result")
+    return jsonify({"conversion_result": float(conversion_result)})
 
 
 if __name__ == '__main__':
