@@ -1,7 +1,13 @@
 # flake8: noqa
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
 class Config:
 
-    API_KEY = 'e581ccb2c93d0464557922c0'
+    API_KEY = os.getenv("API_KEY")
     EXCHANGE_API_URL_LATEST = 'https://v6.exchangerate-api.com/v6/{api_key}/latest/'
     EXCHANGE_API_URL_PAIR = 'https://v6.exchangerate-api.com/v6/{api_key}/pair/'
     CURRENCY_CODES = [
