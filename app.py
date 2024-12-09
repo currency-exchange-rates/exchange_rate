@@ -5,8 +5,6 @@ from config import Config
 app = Flask(__name__)
 app.config.from_object(Config)
 
-currencies = ['USD', 'EUR', 'GBP']
-
 
 @app.route('/exchange-rates/<string:base_currency>')
 def get_exchange_rates(base_currency):
