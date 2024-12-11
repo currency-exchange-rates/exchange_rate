@@ -1,5 +1,46 @@
 [
     {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "Config",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
         "label": "pycurl",
         "kind": 6,
         "isExtraImport": true,
@@ -112,44 +153,48 @@
         "documentation": {}
     },
     {
-        "label": "Flask",
-        "importPath": "flask",
-        "description": "flask",
-        "isExtraImport": true,
-        "detail": "flask",
+        "label": "get_exchange_rates",
+        "kind": 2,
+        "importPath": "backend.app",
+        "description": "backend.app",
+        "peekOfCode": "def get_exchange_rates(base_currency):\n    url = app.config['EXCHANGE_API_URL_LATEST'].format(api_key=app.config['API_KEY']) # noqa\n    response = requests.get(url + base_currency)\n    data = response.json()\n    return data\n# Пример запроса curl:\n# curl \"http://127.0.0.1:5000/?base_currency=EUR&target_currency=GBP&amount=10\"\n@app.route('/')\ndef get_pair_amount():\n    \"\"\"Возвращает значение конвертированного количества валюты.\"\"\"",
+        "detail": "backend.app",
         "documentation": {}
     },
     {
-        "label": "request",
-        "importPath": "flask",
-        "description": "flask",
-        "isExtraImport": true,
-        "detail": "flask",
+        "label": "get_pair_amount",
+        "kind": 2,
+        "importPath": "backend.app",
+        "description": "backend.app",
+        "peekOfCode": "def get_pair_amount():\n    \"\"\"Возвращает значение конвертированного количества валюты.\"\"\"\n    base_currency = request.args.get('base_currency')  # получаем с фронта\n    target_currency = request.args.get('target_currency')  # получаем с фронта\n    amount = request.args.get('amount')  # получаем с фронта\n    url = app.config['EXCHANGE_API_URL_PAIR'].format(api_key=app.config['API_KEY']) # noqa\n    full_url = f\"{url}{base_currency}/{target_currency}/{amount}\"\n    response = requests.get(full_url)\n    data = response.json()\n    conversion_result = data.get(\"conversion_result\")",
+        "detail": "backend.app",
         "documentation": {}
     },
     {
-        "label": "jsonify",
-        "importPath": "flask",
-        "description": "flask",
-        "isExtraImport": true,
-        "detail": "flask",
+        "label": "app",
+        "kind": 5,
+        "importPath": "backend.app",
+        "description": "backend.app",
+        "peekOfCode": "app = Flask(__name__)\napp.config.from_object(Config)\ncurrencies = ['USD', 'EUR', 'GBP']\n@app.route('/exchange-rates/<string:base_currency>')\ndef get_exchange_rates(base_currency):\n    url = app.config['EXCHANGE_API_URL_LATEST'].format(api_key=app.config['API_KEY']) # noqa\n    response = requests.get(url + base_currency)\n    data = response.json()\n    return data\n# Пример запроса curl:",
+        "detail": "backend.app",
         "documentation": {}
     },
     {
-        "label": "requests",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "requests",
-        "description": "requests",
-        "detail": "requests",
+        "label": "currencies",
+        "kind": 5,
+        "importPath": "backend.app",
+        "description": "backend.app",
+        "peekOfCode": "currencies = ['USD', 'EUR', 'GBP']\n@app.route('/exchange-rates/<string:base_currency>')\ndef get_exchange_rates(base_currency):\n    url = app.config['EXCHANGE_API_URL_LATEST'].format(api_key=app.config['API_KEY']) # noqa\n    response = requests.get(url + base_currency)\n    data = response.json()\n    return data\n# Пример запроса curl:\n# curl \"http://127.0.0.1:5000/?base_currency=EUR&target_currency=GBP&amount=10\"\n@app.route('/')",
+        "detail": "backend.app",
         "documentation": {}
     },
     {
         "label": "Config",
-        "importPath": "config",
-        "description": "config",
-        "isExtraImport": true,
-        "detail": "config",
+        "kind": 6,
+        "importPath": "backend.config",
+        "description": "backend.config",
+        "peekOfCode": "class Config:\n    API_KEY = 'e581ccb2c93d0464557922c0'\n    EXCHANGE_API_URL_LATEST = 'https://v6.exchangerate-api.com/v6/{api_key}/latest/'\n    EXCHANGE_API_URL_PAIR = 'https://v6.exchangerate-api.com/v6/{api_key}/pair/'\n    CURRENCY_CODES = [\n            {\"code\": \"AED\", \"name\": \"UAE Dirham\", \"country\": \"United Arab Emirates\"},\n            {\"code\": \"AFN\", \"name\": \"Afghan Afghani\", \"country\": \"Afghanistan\"},\n            {\"code\": \"ALL\", \"name\": \"Albanian Lek\", \"country\": \"Albania\"},\n            {\"code\": \"AMD\", \"name\": \"Armenian Dram\", \"country\": \"Armenia\"},\n            {\"code\": \"ANG\", \"name\": \"Netherlands Antillian Guilder\", \"country\": \"Netherlands Antilles\"},",
+        "detail": "backend.config",
         "documentation": {}
     },
     {
@@ -924,51 +969,6 @@
         "description": "venv.share.doc.pycurl.examples.xmlrpc_curl",
         "peekOfCode": "PY3 = sys.version_info[0] > 2\nclass CURLTransport(xmlrpclib.Transport):\n    \"\"\"Handles a cURL HTTP transaction to an XML-RPC server.\"\"\"\n    xmlrpc_h = [ \"Content-Type: text/xml\" ]\n    def __init__(self, username=None, password=None):\n        self.c = pycurl.Curl()\n        self.c.setopt(pycurl.POST, 1)\n        self.c.setopt(pycurl.NOSIGNAL, 1)\n        self.c.setopt(pycurl.CONNECTTIMEOUT, 30)\n        self.c.setopt(pycurl.HTTPHEADER, self.xmlrpc_h)",
         "detail": "venv.share.doc.pycurl.examples.xmlrpc_curl",
-        "documentation": {}
-    },
-    {
-        "label": "get_exchange_rates",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def get_exchange_rates(base_currency):\n    url = app.config['EXCHANGE_API_URL_LATEST'].format(api_key=app.config['API_KEY']) # noqa\n    response = requests.get(url + base_currency)\n    data = response.json()\n    return data\n# Пример запроса curl:\n# curl \"http://127.0.0.1:5000/?base_currency=EUR&target_currency=GBP&amount=10\"\n@app.route('/')\ndef get_pair_amount():\n    \"\"\"Возвращает значение конвертированного количества валюты.\"\"\"",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "get_pair_amount",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def get_pair_amount():\n    \"\"\"Возвращает значение конвертированного количества валюты.\"\"\"\n    base_currency = request.args.get('base_currency')  # получаем с фронта\n    target_currency = request.args.get('target_currency')  # получаем с фронта\n    amount = request.args.get('amount')  # получаем с фронта\n    url = app.config['EXCHANGE_API_URL_PAIR'].format(api_key=app.config['API_KEY']) # noqa\n    full_url = f\"{url}{base_currency}/{target_currency}/{amount}\"\n    response = requests.get(full_url)\n    data = response.json()\n    conversion_result = data.get(\"conversion_result\")",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "app",
-        "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "app = Flask(__name__)\napp.config.from_object(Config)\ncurrencies = ['USD', 'EUR', 'GBP']\n@app.route('/exchange-rates/<string:base_currency>')\ndef get_exchange_rates(base_currency):\n    url = app.config['EXCHANGE_API_URL_LATEST'].format(api_key=app.config['API_KEY']) # noqa\n    response = requests.get(url + base_currency)\n    data = response.json()\n    return data\n# Пример запроса curl:",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "currencies",
-        "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "currencies = ['USD', 'EUR', 'GBP']\n@app.route('/exchange-rates/<string:base_currency>')\ndef get_exchange_rates(base_currency):\n    url = app.config['EXCHANGE_API_URL_LATEST'].format(api_key=app.config['API_KEY']) # noqa\n    response = requests.get(url + base_currency)\n    data = response.json()\n    return data\n# Пример запроса curl:\n# curl \"http://127.0.0.1:5000/?base_currency=EUR&target_currency=GBP&amount=10\"\n@app.route('/')",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "Config",
-        "kind": 6,
-        "importPath": "config",
-        "description": "config",
-        "peekOfCode": "class Config:\n    API_KEY = 'e581ccb2c93d0464557922c0'\n    EXCHANGE_API_URL_LATEST = 'https://v6.exchangerate-api.com/v6/{api_key}/latest/'\n    EXCHANGE_API_URL_PAIR = 'https://v6.exchangerate-api.com/v6/{api_key}/pair/'\n    CURRENCY_CODES = [\n            {\"code\": \"AED\", \"name\": \"UAE Dirham\", \"country\": \"United Arab Emirates\"},\n            {\"code\": \"AFN\", \"name\": \"Afghan Afghani\", \"country\": \"Afghanistan\"},\n            {\"code\": \"ALL\", \"name\": \"Albanian Lek\", \"country\": \"Albania\"},\n            {\"code\": \"AMD\", \"name\": \"Armenian Dram\", \"country\": \"Armenia\"},\n            {\"code\": \"ANG\", \"name\": \"Netherlands Antillian Guilder\", \"country\": \"Netherlands Antilles\"},",
-        "detail": "config",
         "documentation": {}
     }
 ]
