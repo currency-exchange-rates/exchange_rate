@@ -61,8 +61,8 @@ pre-commit run --all-files
 
 ## Технологический стек:
 
-- Python
-- Flask
+- Python 3.13.1
+- Flask 3.1.0
 - ExchangeRate-API
 
 
@@ -70,4 +70,4 @@ pre-commit run --all-files
 - [Балахонова Марина](https://github.com/margoloko)
 - [Баринов Станислав](https://github.com/hixwizard)
 - [Соловьев Андрей](https://github.com/soloviev-andrey)
-- Юнгблюд Артур
+- [Юнгблюд Артур](https://github.com/BlopFlop)
