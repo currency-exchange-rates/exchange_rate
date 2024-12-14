@@ -1,0 +1,10 @@
+[tool.ruff]
+
+line-length = 84
+
+[tool.ruff.lint]
+
+extend-select = [  
+  "D",   # pydocstyle
+  "E501"
+]
