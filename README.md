@@ -59,6 +59,16 @@ pre-commit install --all
 pre-commit run --all-files
 ```
 
+#### Работа с commitizen
+Чтобы сгенерировать установленный git-commit, запустите в вашем терминале
+```sh
+cz commit
+```
+или сочетание клавиш
+```sh
+cz c
+```
+
 ## Технологический стек:
 
 - Python

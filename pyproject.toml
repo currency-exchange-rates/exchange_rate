@@ -4,7 +4,71 @@ line-length = 84
 
 [tool.ruff.lint]
 
-extend-select = [  
+extend-select = [
   "D",   # pydocstyle
   "E501"
 ]
+ignore = ["D211", "D212", "D100"]
+
+[tool.commitizen]
+name = "cz_customize"
+tag_format = "$version"
+version_scheme = "pep440"
+version = "0.0.1"
+update_changelog_on_bump = true
+major_version_zero = true
+
+[tool.commitizen.customize]
+message_template = "{% if number_issue %}{{number_issue}}:{% endif %}{{change_type}}:{% if show_message %} {{message}}{% endif %}"
+example = "#123: feat: Added support for custom issue numbers in configuration"
+schema = "<type>: <body>"
+schema_pattern = "(feat|fix|test|docs|chore|style|refactor):(\\s.*)"
+bump_pattern = "^(break|new|fix|test|docs|chore|style|refactor)"
+bump_map = {"break" = "MAJOR", "new" = "MINOR", "fix" = "PATCH", "docs" = "PATCH", "chore" = "PATCH"}
+change_type_order = ["BREAKING CHANGE", "feat", "fix", "refactor"]
+info_path = "cz_customize_info.txt"
+info = """
+This is customized info for the project. Use this to standardize commit messages across the team.
+"""
+commit_parser = "^(?P<number_issue>#\\d+)?:?(?P<change_type>feat|fix|test|docs|chore|style|refactor):\\s(?P<message>.+)$"
+changelog_pattern = "^(feat|fix|test|docs|chore|style|refactor)?(!)?"
+
+[tool.commitizen.customize.change_type_map]
+feat = "Feat"
+fix = "Fix"
+test = "Test"
+style = "Style"
+docs = "Docs"
+refactor = "Refactor"
+
+[[tool.commitizen.customize.questions]]
+type = "input"
+name = "number_issue"
+message = "Введите номер задачи (issue) на GitHub (например, #123):"
+validate = "^(#\\d+)?$"
+
+[[tool.commitizen.customize.questions]]
+type = "list"
+name = "change_type"
+choices = [
+    {value = "feat", name = "feat: Добавление нового функционала."},
+    {value = "fix", name = "fix: Исправление ошибок."},
+    {value = "chore", name = "chore: Прочие изменения проекта или обновление зависимостей."},
+    {value = "style", name = "style: Изменения в формате кода, которые не влияют на поведение."},
+    {value = "docs", name = "docs: Обновление документации."},
+    {value = "refactor", name = "refactor: Рефакторинг кода без изменения функциональности."},
+    {value = "test", name = "test: Добавление или изменение тестов."}
+]
+message = "Выберите тип изменения, которое вы вносите:"
+
+[[tool.commitizen.customize.questions]]
+type = "input"
+name = "message"
+message = "Напишите, что было изменено и зачем (например, исправлена ошибка X или добавлен функционал Y):"
+
+
+[[tool.commitizen.customize.questions]]
+type = "confirm"
+name = "show_message"
+message = "Вы хотите включить описание изменений в сообщение коммита?"
+default = true
