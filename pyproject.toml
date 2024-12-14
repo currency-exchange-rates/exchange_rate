@@ -19,7 +19,7 @@ update_changelog_on_bump = true
 major_version_zero = true
 
 [tool.commitizen.customize]
-message_template = "{% if number_issue %}{{number_issue}}:{% endif %}{{change_type}}:{% if show_message %} {{message}}{% endif %}"
+message_template = "{% if number_issue %}{{number_issue}}:{% endif %} {{change_type}}:{% if show_message %} {{message}}{% endif %}"
 example = "#123: feat: Added support for custom issue numbers in configuration"
 schema = "<type>: <body>"
 schema_pattern = "(feat|fix|test|docs|chore|style|refactor):(\\s.*)"
@@ -64,7 +64,7 @@ message = "Выберите тип изменения, которое вы вн�
 [[tool.commitizen.customize.questions]]
 type = "input"
 name = "message"
-message = "Напишите, что было изменено и зачем (например, исправлена ошибка X или добавлен функционал Y):"
+message = "Напишите, что было изменено и зачем (например, исправлена ошибка X или добавлен функционал Y) на английском:"
 
 
 [[tool.commitizen.customize.questions]]
