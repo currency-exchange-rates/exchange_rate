@@ -71,8 +71,8 @@ cz c
 
 ## Технологический стек:
 
-- Python
-- Flask
+- Python 3.13.1
+- Flask 3.1.0
 - ExchangeRate-API
 
 
