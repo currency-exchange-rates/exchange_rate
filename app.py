@@ -7,11 +7,12 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 
-@app.route('/exchange-rates/<string:base_currency>')
+@app.route("/exchange-rates/<string:base_currency>")
 def get_exchange_rates(base_currency):
     """Получение актуальных курсов валют для заданной валюты."""
-
-    url = app.config['EXCHANGE_API_URL_LATEST'].format(api_key=app.config['API_KEY']) # noqa
+    url = app.config["EXCHANGE_API_URL_LATEST"].format(
+        api_key=app.config["API_KEY"]
+    )  # noqa
     response = requests.get(url + base_currency)
     data = response.json()
     return data
@@ -19,24 +20,25 @@ def get_exchange_rates(base_currency):
 
 # Пример запроса curl:
 # curl "http://127.0.0.1:5000/?base_currency=EUR&target_currency=GBP&amount=10"
-@app.route('/')
+@app.route("/")
 def get_pair_amount():
     """Возвращает значение конвертированного количества валюты."""
-    
-    base_currency = request.args.get('base_currency')  # получаем с фронта
-    target_currency = request.args.get('target_currency')  # получаем с фронта
-    amount = request.args.get('amount')  # получаем с фронта
-    url = app.config['EXCHANGE_API_URL_PAIR'].format(api_key=app.config['API_KEY'])
+    base_currency = request.args.get("base_currency")  # получаем с фронта
+    target_currency = request.args.get("target_currency")  # получаем с фронта
+    amount = request.args.get("amount")  # получаем с фронта
+    url = app.config["EXCHANGE_API_URL_PAIR"].format(api_key=app.config["API_KEY"])
     full_url = f"{url}{base_currency}/{target_currency}/{amount}"
     response = requests.get(full_url)
     data = response.json()
     conversion_result = data.get("conversion_result")
     return jsonify({"conversion_result": float(conversion_result)})
+
+
 # пример ответа:
 # {
 #   "conversion_result": 8.29
 # }
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
