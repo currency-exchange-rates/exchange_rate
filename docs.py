@@ -33,4 +33,13 @@ def create_api(app):
         },
     )
 
-    return api, exchange_rate_model
+    conversion_model = api.model(
+        "ConversionResult",
+        {
+            "conversion_result": fields.Float(
+                description="Результат конвертации", example=8.29
+            ),
+        },
+    )
+
+    return api, exchange_rate_model, conversion_model
