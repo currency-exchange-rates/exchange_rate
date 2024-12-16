@@ -8,7 +8,7 @@ extend-select = [
   "D",   # pydocstyle
   "E501"
 ]
-ignore = ["D211", "D212", "D100"]
+ignore = ["D211", "D212", "D100", "D203"]
 
 [tool.commitizen]
 name = "cz_customize"

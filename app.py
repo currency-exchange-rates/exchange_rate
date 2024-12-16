@@ -1,21 +1,35 @@
 import requests
 
 from flask import Flask, request, jsonify
+from flask_restx import Namespace, Resource
 from config import Config
+from docs import create_api
 
 app = Flask(__name__)
 app.config.from_object(Config)
+api, exchange_rate_model = create_api(app)
+exchange_ns = Namespace("exchange", description="Операции с валютами")
+api.add_namespace(exchange_ns)
 
 
-@app.route("/exchange-rates/<string:base_currency>")
-def get_exchange_rates(base_currency):
-    """Получение актуальных курсов валют для заданной валюты."""
-    url = app.config["EXCHANGE_API_URL_LATEST"].format(
-        api_key=app.config["API_KEY"]
-    )  # noqa
-    response = requests.get(url + base_currency)
-    data = response.json()
-    return data
+@exchange_ns.route("/exchange-rates/<string:base_currency>")
+class ExchangeRates(Resource):
+    """Класс для обработки запросов, связанных с актуальными курсами валют."""
+
+    @api.doc(
+        description="Получение актуальных курсов валют для базовой валюты",
+        params={"base_currency": "Код базовой валюты (например, USD, EUR)"},
+        security="apikey",
+    )
+    @api.response(200, "Успешный ответ", model=exchange_rate_model)
+    def get(self, base_currency):
+        """Получение актуальных курсов валют для заданной валюты."""
+        url = app.config["EXCHANGE_API_URL_LATEST"].format(
+            api_key=app.config["API_KEY"]
+        )
+        headers = {"Authorization": f"Bearer {app.config['API_KEY']}"}
+        response = requests.get(url + base_currency, headers=headers)
+        return response.json()
 
 
 # Пример запроса curl:
