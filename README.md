@@ -59,10 +59,20 @@ pre-commit install --all
 pre-commit run --all-files
 ```
 
+#### Работа с commitizen
+Чтобы сгенерировать установленный git-commit, запустите в вашем терминале
+```sh
+cz commit
+```
+или сочетание клавиш
+```sh
+cz c
+```
+
 ## Технологический стек:
 
-- Python
-- Flask
+- Python 3.13.1
+- Flask 3.1.0
 - ExchangeRate-API
 
 
@@ -70,4 +80,4 @@ pre-commit run --all-files
 - [Балахонова Марина](https://github.com/margoloko)
 - [Баринов Станислав](https://github.com/hixwizard)
 - [Соловьев Андрей](https://github.com/soloviev-andrey)
-- Юнгблюд Артур
+- [Юнгблюд Артур](https://github.com/BlopFlop)
