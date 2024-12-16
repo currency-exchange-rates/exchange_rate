@@ -1,1 +1,1 @@
-from src.models import Currency, db_fill # noqa
+from src.models import Currency # noqa
