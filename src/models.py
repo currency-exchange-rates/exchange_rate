@@ -5,10 +5,11 @@ from sqlalchemy.orm import Mapped, declared_attr, mapped_column
 
 
 class Currency(db.Model):
+    """Модель валюты."""
 
     @declared_attr
     def __tablename__(cls) -> str:
-        """Autocreate tablename."""
+        """Автосоздание имени таблицы."""
         cls.__name__: str
         return cls.__name__.lower()
 
@@ -34,11 +35,12 @@ class Currency(db.Model):
     )
     country: Mapped[str] = mapped_column(
         String(100),
-        CheckConstraint("LENGTH(name) <= 100", name="check_len_name"),
+        CheckConstraint("LENGTH(name) <= 100", name="check_len_country"),
         unique=False,
         nullable=False,
         comment="Страна, обязательно, длина имени страны до 100 символов"
     )
 
     def __repr__(self) -> str:
+        """Строковая репрезентация объекта."""
         return f"Currency {self.code} - {self.name}"

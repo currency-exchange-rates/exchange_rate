@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field, field_validator
 
 
 class CurrencySchemaBase(BaseModel):
-    """Base pydantic schema for Currency."""
+    """Базоваия pydantic схема для модели Currency."""
 
     code: Optional[str] = Field(
         ...,
@@ -35,6 +35,7 @@ class CurrencySchemaBase(BaseModel):
 
     @field_validator("code")
     def validate_code(cls, value: str) -> str | ValueError:
+        """Валидация поля code."""
         if len(value) != 3:
             except_message = (
                 f"Код {value} должен быть длинной ровно 3 символа."
@@ -51,11 +52,13 @@ class CurrencySchemaBase(BaseModel):
             except_message = (
                 f"У кода {value} все символы должны быть Английской раскладки."
             )
+            raise ValueError(except_message)
 
         return value
 
     @field_validator("name")
     def validate_name(cls, value: str) -> str | ValueError:
+        """Валидация поля name."""
         if 0 < len(value) <= 50:
             return value
         except_message = (
@@ -65,6 +68,7 @@ class CurrencySchemaBase(BaseModel):
 
     @field_validator("country")
     def validate_country(cls, value: str) -> str | ValueError:
+        """Валидация поля country."""
         if 0 < len(value) <= 100:
             return value
         except_message = (
@@ -74,6 +78,7 @@ class CurrencySchemaBase(BaseModel):
 
 
 class CurrencySchemaCreate(CurrencySchemaBase):
+    """Схема для создания объекта"""
     code: Optional[str] = Field(
         title="Code currency",
         description=(
@@ -91,10 +96,12 @@ class CurrencySchemaCreate(CurrencySchemaBase):
 
 
 class CurrencySchemaUpdate(CurrencySchemaBase):
+    """Схема для обновления объекта."""
     pass
 
 
 class CurrencySchemaDB(CurrencySchemaBase):
+    """Схема объекта из базы данных"""
     id: int = Field(
         title="Id Currency in db",
         description="Айди валюты в базе данных.",

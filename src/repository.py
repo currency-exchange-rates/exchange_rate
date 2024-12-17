@@ -2,33 +2,38 @@ from typing import Any
 from flask_sqlalchemy import SQLAlchemy
 
 from src.models import Currency
+from src.schemas import (
+    CurrencySchemaCreate,
+    CurrencySchemaDB,
+    CurrencySchemaUpdate
+)
 
 
 class RepositoryCurrency:
-    """Base CRUD operations in current application."""
+    """CRUD операции для модели Currency."""
     model = Currency
 
     def __init__(self, db: SQLAlchemy):
-        """Init repository."""
+        """Инициализация репо."""
         self.session = db.session
 
     def get(
         self,
         obj_id: int,
-    ):
-        """Get one item model for id."""
+    ) -> Currency:
+        """Получение одного объекта по id."""
         db_obj = self.model.query.where(self.model.id == obj_id)
         return db_obj.first()
 
     def get_multi(self):
-        """Get all items model."""
+        """Получение всех объектов из бд."""
         return self.model.query.all()
 
     def create(
         self,
-        obj_in,
-    ):
-        """Create item model for id."""
+        obj_in: CurrencySchemaCreate,
+    ) -> Currency:
+        """Создание объекта."""
         obj_in_data = obj_in.dict()
         db_obj = self.model(**obj_in_data)
 
@@ -39,10 +44,10 @@ class RepositoryCurrency:
 
     def update(
         self,
-        db_obj,
-        obj_in,
-    ):
-        """Update item model for id."""
+        db_obj: CurrencySchemaDB,
+        obj_in: CurrencySchemaUpdate,
+    ) -> Currency:
+        """Обновление объекта."""
         obj_data = db_obj
         update_data = obj_in.dict(exclude_unset=True)
 
@@ -57,15 +62,20 @@ class RepositoryCurrency:
 
     def remove(
         self,
-        db_obj,
-    ):
-        """Delete item model for id."""
+        db_obj: CurrencySchemaDB,
+    ) -> CurrencySchemaDB:
+        """Удаление объекта из бд"""
         self.session.delete(db_obj)
         self.session.commit()
         return db_obj
 
-    def get_obj_for_field_arg(self, field: str, arg: Any, many: bool):
-        """Get model for keyword argument."""
+    def get_obj_for_field_arg(
+        self,
+        field: str,
+        arg: Any,
+        many: bool
+    ) -> Currency | list[Currency]:
+        """Получение объекта/объектов по имени поля и аргументу."""
         db_obj = self.model.query.where(getattr(self.model, field) == arg)
         if many:
             return db_obj.all()
