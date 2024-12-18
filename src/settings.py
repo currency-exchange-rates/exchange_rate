@@ -8,6 +8,7 @@ from src.constants import ENV_PATH
 
 class Settings(BaseSettings):
     """Базовые настройки для проекта."""
+
     app_name: str = Field(alias="APP_NAME", description="Имя приложения")
     database_url: str = Field(alias="DATABASE_URL", description="URL БД")
     exchange_api_key: str = Field(
@@ -22,16 +23,12 @@ class Settings(BaseSettings):
     @property
     def exchange_api_url_latest(self) -> str:
         """Url для получения актуального курса валют."""
-        return urljoin(
-            self.exchange_api_url, f"/{self.exchange_api_key}/latest/"
-        )
+        return self.exchange_api_url + f"{self.exchange_api_key}/latest/"
 
     @property
     def exchange_api_url_pair(self) -> str:
         """Url для расчета обенного курса между валютами."""
-        return urljoin(
-            self.exchange_api_url, f"/{self.exchange_api_key}/pair/"
-        )
+        return self.exchange_api_url + f"/{self.exchange_api_key}/pair/"
 
     class Config:
         env_file = ENV_PATH

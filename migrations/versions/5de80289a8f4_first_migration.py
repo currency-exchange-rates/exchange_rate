@@ -1,4 +1,5 @@
-"""First_migration
+"""
+First_migration
 
 Revision ID: 5de80289a8f4
 Revises: 

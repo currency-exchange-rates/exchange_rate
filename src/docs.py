@@ -1,7 +1,10 @@
+from typing import Any
+
+from flask import Flask
 from flask_restx import Api, fields
 
 
-def create_api(app):
+def create_api(app: Flask) -> tuple[Api, Any, Any]:
     """Создание экземпляра API. Описание моделей ответов."""
     authorizations = {
         "apikey": {

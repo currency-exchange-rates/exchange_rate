@@ -79,6 +79,7 @@ class CurrencySchemaBase(BaseModel):
 
 class CurrencySchemaCreate(CurrencySchemaBase):
     """Схема для создания объекта"""
+
     code: Optional[str] = Field(
         title="Code currency",
         description=(
@@ -97,11 +98,13 @@ class CurrencySchemaCreate(CurrencySchemaBase):
 
 class CurrencySchemaUpdate(CurrencySchemaBase):
     """Схема для обновления объекта."""
+
     pass
 
 
 class CurrencySchemaDB(CurrencySchemaBase):
     """Схема объекта из базы данных"""
+
     id: int = Field(
         title="Id Currency in db",
         description="Айди валюты в базе данных.",

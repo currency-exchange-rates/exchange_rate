@@ -1,4 +1,4 @@
-from src.app import db
+from src import db
 
 from sqlalchemy import Integer, String, CheckConstraint
 from sqlalchemy.orm import Mapped, declared_attr, mapped_column
