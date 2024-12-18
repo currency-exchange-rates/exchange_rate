@@ -47,5 +47,5 @@ def add_rates_from_json(
     json_path: Path,
     db: SQLAlchemy
 ) -> None:
-    """Добавляет данные из json."""
+    """Добавляет данные из json ."""
     pass
