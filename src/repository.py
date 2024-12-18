@@ -3,9 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from src.models import Currency
 from src.schemas import (
-    CurrencySchemaCreate,
-    CurrencySchemaDB,
-    CurrencySchemaUpdate
+    CurrencySchemaCreate, CurrencySchemaDB, CurrencySchemaUpdate
 )
 
 
@@ -65,16 +63,13 @@ class RepositoryCurrency:
         self,
         db_obj: CurrencySchemaDB,
     ) -> CurrencySchemaDB:
-        """Удаление объекта из бд"""
+        """Удаление объекта из бд."""
         self.session.delete(db_obj)
         self.session.commit()
         return db_obj
 
     def get_obj_for_field_arg(
-        self,
-        field: str,
-        arg: Any,
-        many: bool
+        self, field: str, arg: Any, many: bool
     ) -> Currency | list[Currency]:
         """Получение объекта/объектов по имени поля и аргументу."""
         db_obj = self.model.query.where(getattr(self.model, field) == arg)

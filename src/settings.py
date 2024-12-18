@@ -1,5 +1,3 @@
-from urllib.parse import urljoin
-
 from pydantic import Field
 from pydantic_settings import BaseSettings
 
@@ -16,8 +14,7 @@ class Settings(BaseSettings):
         description="Токен для апи валют."
     )
     exchange_api_url: str = Field(
-        alias="EXCHANGE_API_URL",
-        description="URL Путь до апи валют."
+        alias="EXCHANGE_API_URL", description="URL Путь до апи валют."
     )
 
     @property
@@ -31,6 +28,8 @@ class Settings(BaseSettings):
         return self.exchange_api_url + f"/{self.exchange_api_key}/pair/"
 
     class Config:
+        """Конфиг для settings."""
+
         env_file = ENV_PATH
         extra = "ignore"
 

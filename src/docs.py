@@ -30,9 +30,12 @@ def create_api(app: Flask) -> tuple[Api, Any, Any]:
         "ExchangeRate",
         {
             "base_currency": fields.String(
-                description="Базовая валюта", example="USD"
+                description="Базовая валюта",
+                example="USD"
             ),
-            "rates": fields.Raw(description="Курсы валют относительно базовой"),
+            "rates": fields.Raw(
+                description="Курсы валют относительно базовой"
+            ),
         },
     )
 

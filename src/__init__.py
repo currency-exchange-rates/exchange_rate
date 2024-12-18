@@ -10,10 +10,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = settings.database_url
 
 
 class Base(DeclarativeBase):
+    """Базовый класс для бд."""
     pass
 
 
 db = SQLAlchemy(app, model_class=Base)
 migrate = Migrate(app, db)
 
-from src import views # noqa
+from src import views  # noqa

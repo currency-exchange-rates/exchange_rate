@@ -62,7 +62,7 @@ class ConvertCurrency(Resource):
             abort(
                 400,
                 "В url должны быть переданы все поля"
-                " base_currency, target_currency, amount."
+                " base_currency, target_currency, amount.",
             )
 
         url = settings.exchange_api_url_pair
