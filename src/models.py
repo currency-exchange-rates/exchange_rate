@@ -1,6 +1,6 @@
 from src import db
 
-from sqlalchemy import Integer, String, CheckConstraint
+from sqlalchemy import Integer, Float, String, CheckConstraint, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, declared_attr, mapped_column
 
 
@@ -44,3 +44,41 @@ class Currency(db.Model):
     def __repr__(self) -> str:
         """Строковая репрезентация объекта."""
         return f"Currency {self.code} - {self.name}"
+
+
+class CurrencyConversionRate(db.Model):
+    """Модель для данных конвертации по курсу валют."""
+
+    @declared_attr
+    def __tablename__(cls) -> str:
+        """Автосоздание имени таблицы."""
+        cls.__name__: str
+        return cls.__name__.lower()
+
+    id: Mapped[int] = mapped_column(
+        Integer,
+        primary_key=True,
+        nullable=False,
+        comment="Айди в базе данных",
+    )
+    currency_id: Mapped[int] = mapped_column(
+        ForeignKey("currency.id", ondelete="CASCADE", onupdate="CASCADE"),
+        primary_key=True,
+        nullable=False,
+        comment="Поле айди валюты"
+    )
+    conversion_currency_id: Mapped[int] = mapped_column(
+        ForeignKey("currency.id", ondelete="CASCADE", onupdate="CASCADE"),
+        primary_key=True,
+        nullable=False,
+        comment="Поле обменной валюты"
+    )
+    rate: Mapped[float] = mapped_column(
+        Float,
+        CheckConstraint(
+            "rate > 0",
+            name="not_equal_currency_obj"
+        ),
+        nullable=False,
+        comment="Обменный курс валюты.",
+    )

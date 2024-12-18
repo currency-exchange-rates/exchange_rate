@@ -25,7 +25,7 @@ class CurrencySchemaBase(BaseModel):
     class Config:
         """Config for this schemas."""
 
-        schema_extra: dict[str, Any] = {
+        json_schema_extra: dict[str, Any] = {
             "example": {
                 "code": "USD",
                 "name": "United States Dollar",
