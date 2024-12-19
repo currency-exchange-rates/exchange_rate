@@ -1,7 +1,10 @@
+from typing import Any
+
+from flask import Flask
 from flask_restx import Api, fields
 
 
-def create_api(app):
+def create_api(app: Flask) -> tuple[Api, Any, Any]:
     """Создание экземпляра API. Описание моделей ответов."""
     authorizations = {
         "apikey": {
@@ -27,9 +30,12 @@ def create_api(app):
         "ExchangeRate",
         {
             "base_currency": fields.String(
-                description="Базовая валюта", example="USD"
+                description="Базовая валюта",
+                example="USD"
             ),
-            "rates": fields.Raw(description="Курсы валют относительно базовой"),
+            "rates": fields.Raw(
+                description="Курсы валют относительно базовой"
+            ),
         },
     )
 

@@ -3,14 +3,13 @@ from flask_sqlalchemy import SQLAlchemy
 
 from src.models import Currency
 from src.schemas import (
-    CurrencySchemaCreate,
-    CurrencySchemaDB,
-    CurrencySchemaUpdate
+    CurrencySchemaCreate, CurrencySchemaDB, CurrencySchemaUpdate
 )
 
 
 class RepositoryCurrency:
     """CRUD операции для модели Currency."""
+
     model = Currency
 
     def __init__(self, db: SQLAlchemy):
@@ -34,7 +33,7 @@ class RepositoryCurrency:
         obj_in: CurrencySchemaCreate,
     ) -> Currency:
         """Создание объекта."""
-        obj_in_data = obj_in.dict()
+        obj_in_data = obj_in.model_dump()
         db_obj = self.model(**obj_in_data)
 
         self.session.add(db_obj)
@@ -49,7 +48,7 @@ class RepositoryCurrency:
     ) -> Currency:
         """Обновление объекта."""
         obj_data = db_obj
-        update_data = obj_in.dict(exclude_unset=True)
+        update_data = obj_in.model_dump(exclude_unset=True)
 
         for field in obj_data:
             if field in update_data:
@@ -64,16 +63,13 @@ class RepositoryCurrency:
         self,
         db_obj: CurrencySchemaDB,
     ) -> CurrencySchemaDB:
-        """Удаление объекта из бд"""
+        """Удаление объекта из бд."""
         self.session.delete(db_obj)
         self.session.commit()
         return db_obj
 
     def get_obj_for_field_arg(
-        self,
-        field: str,
-        arg: Any,
-        many: bool
+        self, field: str, arg: Any, many: bool
     ) -> Currency | list[Currency]:
         """Получение объекта/объектов по имени поля и аргументу."""
         db_obj = self.model.query.where(getattr(self.model, field) == arg)

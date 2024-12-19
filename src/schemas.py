@@ -9,9 +9,7 @@ class CurrencySchemaBase(BaseModel):
     code: Optional[str] = Field(
         ...,
         title="Code currency",
-        description=(
-            "Код валюты для API, длина кода ровно 3 символа"
-        )
+        description=("Код валюты для API, длина кода ровно 3 символа"),
     )
     name: Optional[str] = Field(
         ...,
@@ -21,15 +19,17 @@ class CurrencySchemaBase(BaseModel):
     country: Optional[str] = Field(
         ...,
         title="name country",
-        description="Страна,длина имени страны до 100 символов"
+        description="Страна,длина имени страны до 100 символов",
     )
 
     class Config:
-        schema_extra: dict[str, Any] = {
+        """Config for this schemas."""
+
+        json_schema_extra: dict[str, Any] = {
             "example": {
                 "code": "USD",
                 "name": "United States Dollar",
-                "country": "United States"
+                "country": "United States",
             }
         }
 
@@ -37,15 +37,11 @@ class CurrencySchemaBase(BaseModel):
     def validate_code(cls, value: str) -> str | ValueError:
         """Валидация поля code."""
         if len(value) != 3:
-            except_message = (
-                f"Код {value} должен быть длинной ровно 3 символа."
-            )
+            except_message = f"Код {value} должен быть длинной ровно 3 символа."
             raise ValueError(except_message)
 
         if not value.isupper():
-            except_message = (
-                f"У кода {value} должны быть все заглавные символы."
-            )
+            except_message = f"У кода {value} должны быть все заглавные символы."
             raise ValueError(except_message)
 
         if not (value.isascii() and value.isalpha()):
@@ -78,12 +74,13 @@ class CurrencySchemaBase(BaseModel):
 
 
 class CurrencySchemaCreate(CurrencySchemaBase):
-    """Схема для создания объекта"""
+    """Схема для создания объекта."""
+
     code: Optional[str] = Field(
         title="Code currency",
         description=(
             "Код валюты для API, обязателен, длина кода ровно 3 символа"
-        )
+        ),
     )
     name: Optional[str] = Field(
         title="Name currency",
@@ -91,23 +88,25 @@ class CurrencySchemaCreate(CurrencySchemaBase):
     )
     country: Optional[str] = Field(
         title="name country",
-        description="Страна, обязательно, длина имени страны до 100 символов"
+        description="Страна, обязательно, длина имени страны до 100 символов",
     )
 
 
 class CurrencySchemaUpdate(CurrencySchemaBase):
     """Схема для обновления объекта."""
+
     pass
 
 
 class CurrencySchemaDB(CurrencySchemaBase):
-    """Схема объекта из базы данных"""
+    """Схема объекта из базы данных."""
+
     id: int = Field(
         title="Id Currency in db",
         description="Айди валюты в базе данных.",
     )
 
     class Config:
-        """Config for this schemas."""
+        """Конфиг для этой схемы."""
 
         orm_mode: bool = True
