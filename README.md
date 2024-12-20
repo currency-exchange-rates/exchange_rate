@@ -13,7 +13,7 @@ API для конвертации валют с использованием а�
 ## Заполнение .env файла:
 - APP_NAME="Сервис конвертации валют"
 - DATABASE_URL="sqlite:///rate.sqlite"
-- API_KEY="{Ваш токен}"
+- API_KEY="Ваш токен"
 - EXCHANGE_API_URL="https://v6.exchangerate-api.com/v6/"
 
 ## Стилистика
