@@ -1,6 +1,6 @@
 from src import db
 
-from sqlalchemy import Integer, Float, String, CheckConstraint, ForeignKey, UniqueConstraint
+from sqlalchemy import Integer, Float, String, CheckConstraint, ForeignKey
 from sqlalchemy.orm import Mapped, declared_attr, mapped_column
 
 
@@ -21,7 +21,7 @@ class Currency(db.Model):
     )
     code: Mapped[str] = mapped_column(
         String(3),
-        CheckConstraint("LENGTH(name) == 3", name="check_len_code"),
+        CheckConstraint("LENGTH(code) == 3", name="check_len_code"),
         unique=True,
         nullable=False,
         comment="Код валюты для API, обязателен, длина кода ровно 3 символа",
@@ -35,7 +35,7 @@ class Currency(db.Model):
     )
     country: Mapped[str] = mapped_column(
         String(100),
-        CheckConstraint("LENGTH(name) <= 100", name="check_len_country"),
+        CheckConstraint("LENGTH(country) <= 100", name="check_len_country"),
         unique=False,
         nullable=False,
         comment="Страна, обязательно, длина имени страны до 100 символов",
