@@ -21,20 +21,29 @@ class ExchangeRates(Resource):
 
     @api.doc(
         description="Получение актуальных курсов валют для базовой валюты",
-        params={"base_currency": "Код базовой валюты (например, USD, EUR)"},
+        params={
+            "base_currency": "Код базовой валюты (например, USD, EUR)"
+        },
         security="apikey",
     )
     @api.response(200, "Успешный ответ", model=exchange_rate_model)
     def get(self, base_currency):
         """Получение актуальных курсов валют для заданной валюты."""
+
         url = settings.exchange_api_url_latest
         headers = {"Authorization": f"Bearer {settings.exchange_api_key}"}
         response = requests.get(url + base_currency, headers=headers)
+
         data: dict[Any] = response.json()
+
+        base_code = data.get("base_code")
+        conversion_rates = data.get("conversion_rates")
+
         simplified_response = {
-            "base_currency": data.get("base_code"),
-            "conversion_rates": data.get("conversion_rates"),
+            "base_currency": base_code,
+            "conversion_rates": conversion_rates,
         }
+
         return jsonify(simplified_response)
 
 
@@ -55,10 +64,10 @@ class ConvertCurrency(Resource):
     @api.response(200, "Success", model=conversion_model)
     def get(self):
         """Возвращает значение конвертированного количества валюты."""
-        base_currency = request.args.get("base_currency")  # получаем с фронта
-        target_currency = request.args.get("target_currency")  # получаем с фронта
+        base_currency = request.args.get("base_currency")
+        target_currency = request.args.get("target_currency")
         amount = request.args.get("amount")
-        if not all(base_currency, target_currency, amount):
+        if not all((base_currency, target_currency, amount)):
             abort(
                 400,
                 "В url должны быть переданы все поля"

@@ -34,7 +34,27 @@ def create_api(app: Flask) -> tuple[Api, Any, Any]:
                 example="USD"
             ),
             "rates": fields.Raw(
-                description="Курсы валют относительно базовой"
+                description="Курсы валют относительно базовой",
+                example={
+                    "AED": 3.6725,
+                    "AFN": 70.2515,
+                    "ALL": 94.5439,
+                    "AMD": 395.2367,
+                    "ANG": 1.79,
+                    "AOA": 925.3915,
+                    "ARS": 1025.42,
+                    "AUD": 1.5996,
+                    "AWG": 1.79,
+                    "AZN": 1.7,
+                    "BAM": 1.8751,
+                    "BBD": 2,
+                    "BDT": 119.505,
+                    "BGN": 1.8752,
+                    "BHD": 0.376,
+                    "BIF": 2954.1185,
+                    "BMD": 1,
+                    "BND": 1.3563,
+                }
             ),
         },
     )
@@ -43,7 +63,8 @@ def create_api(app: Flask) -> tuple[Api, Any, Any]:
         "ConversionResult",
         {
             "conversion_result": fields.Float(
-                description="Результат конвертации", example=8.29
+                description="Результат конвертации",
+                example=8.29
             ),
         },
     )

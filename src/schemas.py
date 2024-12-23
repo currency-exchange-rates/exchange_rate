@@ -57,9 +57,7 @@ class CurrencySchemaBase(BaseModel):
         """Валидация поля name."""
         if 0 < len(value) <= 50:
             return value
-        except_message = (
-            f"У длины имени валюты {value} должно быть до 50 символов."
-        )
+        except_message = f"У длины имени валюты {value} должно быть до 50 символов."
         raise ValueError(except_message)
 
     @field_validator("country")
@@ -67,9 +65,7 @@ class CurrencySchemaBase(BaseModel):
         """Валидация поля country."""
         if 0 < len(value) <= 100:
             return value
-        except_message = (
-            f"У длины имени страны {value} должно быть до 100 символов."
-        )
+        except_message = f"У длины имени страны {value} должно быть до 100 символов."
         raise ValueError(except_message)
 
 
@@ -78,9 +74,7 @@ class CurrencySchemaCreate(CurrencySchemaBase):
 
     code: Optional[str] = Field(
         title="Code currency",
-        description=(
-            "Код валюты для API, обязателен, длина кода ровно 3 символа"
-        ),
+        description=("Код валюты для API, обязателен, длина кода ровно 3 символа"),
     )
     name: Optional[str] = Field(
         title="Name currency",

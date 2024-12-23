@@ -8,10 +8,7 @@ from src.schemas import CurrencySchemaCreate
 from src.repository import RepositoryCurrency
 
 
-def add_data_from_json(
-    json_path: Path,
-    db: SQLAlchemy
-) -> None:
+def add_data_from_json(json_path: Path, db: SQLAlchemy) -> None:
     """Добавляет данные из json."""
     currency_repository = RepositoryCurrency(db)
     currency_adapter = TypeAdapter(list[CurrencySchemaCreate])
@@ -43,9 +40,6 @@ def add_data_from_json(
             currency_repository.create(obj_in=obj_in)
 
 
-def add_rates_from_json(
-    json_path: Path,
-    db: SQLAlchemy
-) -> None:
+def add_rates_from_json(json_path: Path, db: SQLAlchemy) -> None:
     """Добавляет данные из json ."""
     pass

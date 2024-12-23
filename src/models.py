@@ -1,6 +1,8 @@
 from src import db
 
-from sqlalchemy import Integer, Float, String, CheckConstraint, ForeignKey
+from sqlalchemy import (
+    Integer, Float, String, CheckConstraint, ForeignKey, DateTime
+)
 from sqlalchemy.orm import Mapped, declared_attr, mapped_column
 
 
@@ -63,22 +65,29 @@ class CurrencyConversionRate(db.Model):
     )
     currency_id: Mapped[int] = mapped_column(
         ForeignKey("currency.id", ondelete="CASCADE", onupdate="CASCADE"),
-        primary_key=True,
         nullable=False,
-        comment="Поле айди валюты"
+        comment="Поле айди валюты",
     )
     conversion_currency_id: Mapped[int] = mapped_column(
         ForeignKey("currency.id", ondelete="CASCADE", onupdate="CASCADE"),
-        primary_key=True,
         nullable=False,
-        comment="Поле обменной валюты"
+        comment="Поле обменной валюты",
     )
     rate: Mapped[float] = mapped_column(
         Float,
-        CheckConstraint(
-            "rate > 0",
-            name="not_equal_currency_obj"
-        ),
+        CheckConstraint("rate > 0", name="not_equal_currency_obj"),
         nullable=False,
         comment="Обменный курс валюты.",
     )
+    date_update: Mapped[DateTime] = mapped_column(
+        DateTime,
+        nullable=False,
+        comment="Дата обновления"
+    )
+
+    def __repr__(self) -> str:
+        """Строковая репрезентация объекта."""
+        return (
+            f"{self.currency_id}/{self.conversion_currency_id}"
+            f" rate {self.rate}"
+        )
