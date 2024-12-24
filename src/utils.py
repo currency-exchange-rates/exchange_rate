@@ -78,3 +78,26 @@ def validate_convert_value(value: str) -> str:
         abort(400, except_message)
 
     return value
+
+
+def validate_code(value: str) -> str | ValueError:
+    """Валидация поля code."""
+    if len(value) != 3:
+        except_message = (
+            f"Код {value} должен быть длинной ровно 3 символа."
+        )
+        raise ValueError(except_message)
+
+    if not value.isupper():
+        except_message = (
+            f"У кода {value} должны быть все заглавные символы."
+        )
+        raise ValueError(except_message)
+
+    if not (value.isascii() and value.isalpha()):
+        except_message = (
+            f"У кода {value} все символы должны быть Английской раскладки."
+        )
+        raise ValueError(except_message)
+
+    return value
