@@ -38,8 +38,6 @@ class ExchangeRates(Resource):
         return jsonify(simplified_response)
 
 
-# Пример запроса curl:
-# curl "http://127.0.0.1:5000/?base_currency=EUR&target_currency=GBP&amount=10"
 @exchange_ns.route("/")
 class ConvertCurrency(Resource):
     """Класс для обработки запросов на конвертацию суммы между двумя валютами."""
@@ -55,10 +53,10 @@ class ConvertCurrency(Resource):
     @api.response(200, "Success", model=conversion_model)
     def get(self):
         """Возвращает значение конвертированного количества валюты."""
-        base_currency = request.args.get("base_currency")  # получаем с фронта
-        target_currency = request.args.get("target_currency")  # получаем с фронта
+        base_currency = request.args.get("base_currency")
+        target_currency = request.args.get("target_currency")
         amount = request.args.get("amount")
-        if not all(base_currency, target_currency, amount):
+        if not all([base_currency, target_currency, amount]):
             abort(
                 400,
                 "В url должны быть переданы все поля"
