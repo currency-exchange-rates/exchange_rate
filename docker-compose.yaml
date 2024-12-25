@@ -9,9 +9,7 @@ services:
     environment:
       - FLASK_ENV=development
       - APP_NAME={APP_NAME}
-      - DATABASE_URL=sqlite:///instance/rate.sqlite
       - API_KEY={API_KEY}
       - EXCHANGE_API_URL={EXCHANGE_API_URL}
     volumes:
       - .:/app
-      - ./instance:/app/instance
