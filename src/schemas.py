@@ -37,11 +37,15 @@ class CurrencySchemaBase(BaseModel):
     def validate_code(cls, value: str) -> str | ValueError:
         """Валидация поля code."""
         if len(value) != 3:
-            except_message = f"Код {value} должен быть длинной ровно 3 символа."
+            except_message = (
+                f"Код {value} должен быть длинной ровно 3 символа."
+            )
             raise ValueError(except_message)
 
         if not value.isupper():
-            except_message = f"У кода {value} должны быть все заглавные символы."
+            except_message = (
+                f"У кода {value} должны быть все заглавные символы."
+            )
             raise ValueError(except_message)
 
         if not (value.isascii() and value.isalpha()):

@@ -8,6 +8,7 @@ from flask_restx import Resource, Namespace
 from src import app
 from src.settings import settings
 from src.docs import create_api
+from src.utils import validate_currency_code, validate_convert_value
 
 
 api, exchange_rate_model, conversion_model = create_api(app)
@@ -21,20 +22,33 @@ class ExchangeRates(Resource):
 
     @api.doc(
         description="Получение актуальных курсов валют для базовой валюты",
-        params={"base_currency": "Код базовой валюты (например, USD, EUR)"},
+        params={
+            "base_currency": "Код базовой валюты (например, USD, EUR)"
+        },
         security="apikey",
     )
     @api.response(200, "Успешный ответ", model=exchange_rate_model)
     def get(self, base_currency):
         """Получение актуальных курсов валют для заданной валюты."""
+        validate_currency_code(base_currency)
+
         url = settings.exchange_api_url_latest
         headers = {"Authorization": f"Bearer {settings.exchange_api_key}"}
         response = requests.get(url + base_currency, headers=headers)
+
         data: dict[Any] = response.json()
+
+        if data.get("result") == "error":
+            abort(400, data.get(data.get("error-type")))
+
+        base_code = data.get("base_code")
+        conversion_rates = data.get("conversion_rates")
+
         simplified_response = {
-            "base_currency": data.get("base_code"),
-            "conversion_rates": data.get("conversion_rates"),
+            "base_currency": base_code,
+            "conversion_rates": conversion_rates,
         }
+
         return jsonify(simplified_response)
 
 
@@ -56,16 +70,24 @@ class ConvertCurrency(Resource):
         base_currency = request.args.get("base_currency")
         target_currency = request.args.get("target_currency")
         amount = request.args.get("amount")
-        if not all([base_currency, target_currency, amount]):
+        if not all((base_currency, target_currency, amount)):
             abort(
                 400,
                 "В url должны быть переданы все поля"
                 " base_currency, target_currency, amount.",
             )
 
+        validate_currency_code(base_currency)
+        validate_currency_code(target_currency)
+        validate_convert_value(amount)
+
         url = settings.exchange_api_url_pair
         param = f"{base_currency}/{target_currency}/{amount}"
         full_url = urljoin(url, param)
         response = requests.get(full_url)
         data: dict[Any] = response.json()
+
+        if data.get("result") == "error":
+            abort(400, data.get(data.get("error-type")))
+
         return {"conversion_result": float(data.get("conversion_result"))}

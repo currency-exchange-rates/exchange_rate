@@ -9,10 +9,7 @@ class Settings(BaseSettings):
 
     app_name: str = Field(alias="APP_NAME", description="Имя приложения")
     database_url: str = Field(alias="DATABASE_URL", description="URL БД")
-    exchange_api_key: str = Field(
-        alias="API_KEY",
-        description="Токен для апи валют."
-    )
+    exchange_api_key: str = Field(alias="API_KEY", description="Токен для апи валют.")
     exchange_api_url: str = Field(
         alias="EXCHANGE_API_URL", description="URL Путь до апи валют."
     )

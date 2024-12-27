@@ -1,9 +1,11 @@
 from typing import Any
 from flask_sqlalchemy import SQLAlchemy
 
-from src.models import Currency
+from src.models import Currency, CurrencyConversionRate
 from src.schemas import (
-    CurrencySchemaCreate, CurrencySchemaDB, CurrencySchemaUpdate
+    CurrencySchemaCreate,
+    CurrencySchemaDB,
+    CurrencySchemaUpdate
 )
 
 
@@ -76,3 +78,29 @@ class RepositoryCurrency:
         if many:
             return db_obj.all()
         return db_obj.first()
+
+    def get_conversation_rate(
+        self,
+        currency: Currency,
+        conversion_currency: Currency,
+    ) -> CurrencyConversionRate:
+        rate_model = CurrencyConversionRate
+        rate_obj = rate_model.query.where(
+            rate_model.currency_id == currency.id,
+            rate_model.conversion_currency_id == conversion_currency.id
+        )
+        return rate_obj.first()
+
+    def create_or_update_conversation_rates(
+        self,
+        currency: Currency,
+        conversion_objs: list[Currency],
+        rate: int
+    ) -> list[CurrencyConversionRate]:
+        rate_obj = []
+        # for conversion_obj in conversion_objs:
+        #     rate_obj = self.get_conversation_rate(currency, conversion_obj)
+
+        #     if rate_obj:
+
+        #     ra

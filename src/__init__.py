@@ -11,6 +11,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = settings.database_url
 
 class Base(DeclarativeBase):
     """Базовый класс для бд."""
+
     pass
 
 
