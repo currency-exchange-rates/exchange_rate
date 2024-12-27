@@ -15,7 +15,6 @@ http://127.0.0.1:5000/swagger
 
 ## Заполнение .env файла:
 - APP_NAME="Сервис конвертации валют"
-- DATABASE_URL="sqlite:///rate.sqlite"
 - API_KEY="Ваш токен"
 - EXCHANGE_API_URL="https://v6.exchangerate-api.com/v6/"
 
