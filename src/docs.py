@@ -20,7 +20,7 @@ def create_api(app: Flask) -> tuple[Api, Any, Any]:
         title="Exchange Rate API",
         version="1.0",
         description="API для работы с валютными курсами",
-        doc="/api-docs",
+        doc="/swagger",
         prefix="/api/v1",
         authorizations=authorizations,
         security="apikey",
@@ -56,6 +56,7 @@ def create_api(app: Flask) -> tuple[Api, Any, Any]:
                     "BND": 1.3563,
                 }
             ),
+            "rates": fields.Raw(description="Курсы валют относительно базовой"),
         },
     )
 

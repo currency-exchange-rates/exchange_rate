@@ -52,8 +52,6 @@ class ExchangeRates(Resource):
         return jsonify(simplified_response)
 
 
-# Пример запроса curl:
-# curl "http://127.0.0.1:5000/?base_currency=EUR&target_currency=GBP&amount=10"
 @exchange_ns.route("/")
 class ConvertCurrency(Resource):
     """Класс для обработки запросов на конвертацию суммы между двумя валютами."""
